@@ -29,7 +29,7 @@ public class PDPOdev
             }
             if(!tirnak)
             {
-                if((satir.charAt(i)=='+'&&satir.charAt(i+1)!='+')||satir.charAt(i)=='-'||satir.charAt(i)=='/'||satir.charAt(i)=='*'||satir.charAt(i)=='&'||satir.charAt(i)=='='||satir.charAt(i)=='<'||satir.charAt(i)=='>'||(satir.charAt(i)=='!'&&satir.charAt(i+1)=='=')||(satir.charAt(i)=='|'&&satir.charAt(i+1)=='|')) 
+                if((satir.charAt(i)=='+'&&satir.charAt(i+1)!='+')||(satir.charAt(i)=='-'&&satir.charAt(i+1)!='-')||satir.charAt(i)=='/'||satir.charAt(i)=='*'||(satir.charAt(i)=='&'&&satir.charAt(i+1)!='&')||(satir.charAt(i)=='='&&satir.charAt(i+1)!='=')||satir.charAt(i)=='<'||satir.charAt(i)=='>'||(satir.charAt(i)=='!'&&satir.charAt(i+1)=='=')||(satir.charAt(i)=='|'&&satir.charAt(i+1)=='|')) 
                 {// +, -, /, *, &, ++, --, +=, -=, /=, *=, =, ==, <, >, <=, >=, !=.  &&, || 
                     sayi++;
                 }
@@ -39,11 +39,30 @@ public class PDPOdev
         }
         return sayi;
     }
+    
+    static boolean fonksiyonMu(String satir)
+    {
+    }
+    static int fonksiyonSay(File dosya)throws IOException
+    {
+        int sayi=0;
+        
+        return sayi;
+    }
+    static int parametreSay(File dosya)throws IOException
+    {
+        int sayi=0;
+        
+        return sayi;
+    }
     public static void main(String[] args) throws IOException 
     {
         File dosya = new File("Program.c");
-        int operatorSayi;
-        operatorSayi=operatorSay(dosya);
-        System.out.println(operatorSayi);
+        int operatorSayi=operatorSay(dosya);
+        int fonksiyonSayi=fonksiyonSay(dosya);
+        int parametreSayi=parametreSay(dosya);
+        System.out.println("Toplam Operatör Sayısı: "+operatorSayi);
+        System.out.println("Toplam Fonksiyon Sayısı: "+fonksiyonSayi);
+        System.out.println("Toplam Parametre Sayısı: "+parametreSayi);
     }
 }
