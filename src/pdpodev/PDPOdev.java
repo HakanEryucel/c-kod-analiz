@@ -45,124 +45,137 @@ public class PDPOdev
         }
         return sayi;
     }
-    
-    static boolean fonksiyonMu(String satir)
+    static String[] sablonDonustur(File dosya)throws IOException
     {
-        boolean anahtar=false,parantez=false,esittir=false;
-        int tmp=0;
-        if(satir.contains("void")||satir.contains("char")||satir.contains("int")||satir.contains("short")||satir.contains("long")||satir.contains("float")||satir.contains("double"))
+        int suslu=0;
+        boolean tirnak=false;
+        boolean cokluYorum=false;
+        BufferedReader reader = new BufferedReader(new FileReader(dosya));
+        String satir,metin="";
+        satir=reader.readLine();
+        while(satir!=null)
         {
-            anahtar=true;
-        }
-        if(satir.contains("(")&&satir.contains(")"))
-        {
-            parantez=true;
-        }
         for(int i=0;i<satir.length();i++)
         {
-            if(satir.charAt(i)=='(')
+            if(satir.charAt(i)=='{')
             {
-                tmp=i;
+                suslu++;
+                if(suslu==1)
+                {
+                    //metin+='{';
+                    break;
+                }
+            }
+            if(satir.charAt(i)=='}')
+            {
+                suslu--;
+            }
+            if((satir.charAt(i)=='/'&&satir.charAt(i+1)=='/')||suslu>0||satir.charAt(i)=='#')
+            {
                 break;
             }
+            if(satir.charAt(i)=='/'&&satir.charAt(i+1)=='*')
+            {
+                cokluYorum=true;
+            }
+            if(satir.charAt(i)=='*'&&satir.charAt(i+1)=='/')
+            {
+                cokluYorum=false;
+            }
+            if(satir.charAt(i)=='"')
+            {
+                tirnak = !tirnak;
+            }
+            if(!tirnak&&!cokluYorum)
+            {
+                if(satir.charAt(i)!='\n'&&satir.charAt(i)!='"'&&satir.charAt(i)!=' '&&satir.charAt(i)!='\r'&&satir.charAt(i)!='\t')
+                {
+                    metin+=satir.charAt(i);
+                }
+                else if(satir.charAt(i)=='\n'||satir.charAt(i)=='\r'||satir.charAt(i)=='\t'||satir.charAt(i)==' ')
+                {
+                    if(!metin.endsWith(" "))
+                    {
+                        metin+=' ';
+                    }
+                }
+            }
         }
-        if(tmp!=0)
-        {
-            satir=satir.substring(1, tmp-1);
+        satir=reader.readLine();
         }
-        if(satir.contains("="))
-        {
-            esittir=true;
-        }
-        return (anahtar&&parantez)&&(!esittir);
+        String [] fonksiyonDizi=metin.split("}");
+        return fonksiyonDizi;
     }
     static int fonksiyonSay(File dosya)throws IOException
     {
-        int sayi=0;
-        BufferedReader reader = new BufferedReader(new FileReader(dosya));
-        String satir=reader.readLine();
-        while(satir!=null)
-        {
-            /*if(satir.contains("void")||satir.contains("return"))
-            {
-                sayi++;
-            }
-            */
-            if(fonksiyonMu(satir))
-            {
-                sayi++;
-            }
-            satir=reader.readLine();
-        }
-        return sayi;
-    }
-    static void deneme(File dosya)throws IOException
-    {
-        BufferedReader reader = new BufferedReader(new FileReader(dosya));
-        String metin="";
-        int karakter;
-        while((karakter= reader.read())!=-1)
-        {
-            char tmp=(char)karakter;
-            if(tmp!='\n'&&tmp!='\r')
-            {
-                metin+=tmp;
-            }
-            else
-            {
-                metin+=' ';
-            }
-        }
-        System.out.println(metin);
+        String []tmp=sablonDonustur(dosya);
+        return tmp.length;
     }
     static int parametreSay(File dosya)throws IOException
     {
         int sayi=0;
-        BufferedReader reader = new BufferedReader(new FileReader(dosya));
-        String satir=reader.readLine();
-        while(satir!=null)
-        {
-            if(satir.contains("void"))
-            {
-                int ilk=0,son=0;
-                for(int i=0;i<satir.length();i++)
-                {
-                    if(satir.charAt(i)=='(')
-                    {
-                        ilk=i;
-                    }
-                    if(satir.charAt(i)==')')
-                    {
-                        son=i;
+        String[] fonksiyonDizi=sablonDonustur(dosya);
+        for (String tmp : fonksiyonDizi) {
+            boolean parantez=false;
+            for (int j = 0; j < tmp.length(); j++) {
+                if (tmp.charAt(j) == '(' && !parantez) {
+                    parantez=true;
+                    if (tmp.length() - j <= 2) {
+                        break;
+                    } else {
+                        sayi++;
                     }
                 }
-                if(son-ilk!=1)
-                {
-                    satir=satir.substring(ilk+1, son);
-                    int tmp=0;
-                    for(int i=0;i<satir.length();i++)
-                    {
-                        if(satir.charAt(i)==',')
-                        {
-                            tmp++;
-                        }
-                    }
-                    sayi+=tmp+1;
+                if (parantez && tmp.charAt(j) == ',') {
+                    sayi++;
                 }
             }
-            satir=reader.readLine();
         }
         return sayi;
+    }
+    static void fonksiyonYazdir(File dosya)throws IOException
+    {
+        System.out.println("Fonksiyon İsimleri:");
+        String[] fonksiyonDizi=sablonDonustur(dosya);
+        for(String tmp : fonksiyonDizi)
+        {
+            int boslukIndex=0,ilkParantezIndex=0,ikinciParantezIndex=0;
+            for(int i=0;i<tmp.length();i++)
+            {
+                if(tmp.charAt(i)==' '&&ilkParantezIndex==0)
+                {
+                    boslukIndex=i;
+                }
+                if(tmp.charAt(i)=='(')
+                {
+                    ilkParantezIndex=i;
+                }
+                if(tmp.charAt(i)==')')
+                {
+                    ikinciParantezIndex=i;
+                    break;
+                }
+            }
+            System.out.print(tmp.substring(boslukIndex+1, ilkParantezIndex).trim()+" - Parametreler: ");
+            String[] parametreDizi=tmp.substring(ilkParantezIndex+1,ikinciParantezIndex).split(",");
+            for(String tmp2:parametreDizi)
+            {
+                String[] parametre=tmp2.split(" ");
+                System.out.print(parametre[parametre.length-1]);
+                if(!tmp2.equals(parametreDizi[parametreDizi.length-1]))
+                {
+                    System.out.print(',');
+                }
+            }
+            System.out.print("\n");
+        }
     }
     public static void main(String[] args) throws IOException 
     {
         File dosya = new File("Program.c");
-        int operatorSayi=operatorSay(dosya);
-        /*int fonksiyonSayi=fonksiyonSay(dosya);
-        int parametreSayi=parametreSay(dosya);*/
-        System.out.println("Toplam Operatör Sayısı: "+operatorSayi);
-        deneme(dosya);
-       /* System.out.println("Toplam Fonksiyon Sayısı: "+fonksiyonSayi);
-        System.out.println("Toplam Parametre Sayısı: "+parametreSayi);*/
+        System.out.println("Toplam Operatör Sayısı: "+operatorSay(dosya));
+        System.out.println("Toplam Fonksiyon Sayısı: "+fonksiyonSay(dosya));
+        System.out.println("Toplam Parametre Sayısı: "+parametreSay(dosya));
+        fonksiyonYazdir(dosya);
     }
 }
