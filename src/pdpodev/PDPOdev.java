@@ -88,7 +88,7 @@ public class PDPOdev
             }
             if(!tirnak&&!cokluYorum)
             {
-                if(satir.charAt(i)!='\n'&&satir.charAt(i)!='"'&&satir.charAt(i)!=' '&&satir.charAt(i)!='\r'&&satir.charAt(i)!='\t')
+                if(satir.charAt(i)!='\n'&&satir.charAt(i)!='"'&&satir.charAt(i)!=' '&&satir.charAt(i)!='\r'&&satir.charAt(i)!='\t'&&satir.charAt(i)!='(')
                 {
                     metin+=satir.charAt(i);
                 }
@@ -98,6 +98,11 @@ public class PDPOdev
                     {
                         metin+=' ';
                     }
+                }
+                else if(satir.charAt(i)=='(')
+                {
+                    metin=metin.trim();
+                    metin+='(';
                 }
             }
         }
