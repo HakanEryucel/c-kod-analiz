@@ -15,7 +15,7 @@ public class PDPOdev
         satir=reader.readLine();
         while(satir!=null)
         {
-        for(int i=0;i<satir.length();i++)
+        for(int i=0;i<satir.length()-1;i++)
         {
             if(satir.charAt(i)=='/'&&satir.charAt(i+1)=='/')
             {
@@ -35,7 +35,7 @@ public class PDPOdev
             }
             if(!tirnak&&!cokluYorum)
             {
-                if((satir.charAt(i)=='+'&&satir.charAt(i+1)!='+')||(satir.charAt(i)=='-'&&satir.charAt(i+1)!='-')||(satir.charAt(i)=='/'&&satir.charAt(i+1)!='/'&&satir.charAt(i-1)!='/'&&satir.charAt(i+1)!='*')||(satir.charAt(i)=='*'&&satir.charAt(i-1)!='/')||(satir.charAt(i)=='&'&&satir.charAt(i+1)!='&')||(satir.charAt(i)=='='&&satir.charAt(i+1)!='=')||satir.charAt(i)=='<'||satir.charAt(i)=='>'||(satir.charAt(i)=='!'&&satir.charAt(i+1)=='=')||(satir.charAt(i)=='|'&&satir.charAt(i+1)=='|')) 
+                if((satir.charAt(i)=='+'&&satir.charAt(i+1)!='+')||(satir.charAt(i)=='-'&&satir.charAt(i+1)!='-')||(satir.charAt(i)=='/'&&satir.charAt(i+1)!='*'&&satir.charAt(i-1)!='*')||(satir.charAt(i)=='*'&&satir.charAt(i-1)!='/'&&satir.charAt(i+1)!='/')||(satir.charAt(i)=='&'&&satir.charAt(i+1)!='&')||(satir.charAt(i)=='='&&satir.charAt(i+1)!='=')||(satir.charAt(i)=='<'&&satir.charAt(i+1)!='=')||(satir.charAt(i)=='>'&&satir.charAt(i+1)!='=')||(satir.charAt(i)=='|'&&satir.charAt(i+1)=='|')) 
                 {// +, -, /, *, &, ++, --, +=, -=, /=, *=, =, ==, <, >, <=, >=, !=.  &&, || 
                     sayi++;
                 }
@@ -113,8 +113,19 @@ public class PDPOdev
     }
     static int fonksiyonSay(File dosya)throws IOException
     {
-        String []tmp=sablonDonustur(dosya);
-        return tmp.length;
+        String []fonksiyonDizi=sablonDonustur(dosya);
+        //int ayni=0;
+       // for(int i=0;i<fonksiyonDizi.length;i++)
+       // {
+           // for(int j=0;j<fonksiyonDizi.length;j++)
+           // {
+             //   if(i!=j&&fonksiyonDizi[i].equals(fonksiyonDizi[j]))
+              //  {
+              //      ayni++;
+               // }
+           // }
+        //}
+        return fonksiyonDizi.length;//-ayni;
     }
     static int parametreSay(File dosya)throws IOException
     {

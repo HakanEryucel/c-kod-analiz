@@ -4,19 +4,30 @@
 void DiziYazdir(int *p,int uzunluk)
 {  
 	int i=0;  
-	for(;i<uzunluk;i++) 
+	for(;i<uzunluk;i++)
 		printf("%d ",p[i]); 
-} 
-int DiziTopla(int *p,int uzunluk)
+}
+int DiziTopla(int *p,int uzunluk)  
 {  
 	int i=0;  
-	int toplam=0;  
+	int toplam=0;    
 	for(;i<uzunluk;i++) 
-		toplam += p[i];  
+		toplam += p[i];    
 	return toplam; 
-} 
+} // +, -, /, *, &, ++, --, +=, -=, /=, *=, =, ==, <, >, <=, >=, !=.  &&, || 
+/**/
+
 int main()
 {  
+	int x = 3+5;
+	int y = 9 - 6;
+	int c = 8 / 4 ;
+	int x = 5   *   5 ;
+	int y = 5++;/**/
+	if( a &);
+	int x=        c++;
+	int c=   x-- ;
+	if ( += -= /= *=  =  ==  <  > <=  >= != && ||);
 	int x,y;  
 	printf("x:");  
 	scanf("%d",&x);  
