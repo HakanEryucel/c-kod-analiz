@@ -1,4 +1,4 @@
-# c-kod-analiz
+# C Dili ile Yazılmış Kodun Analizi
 ## Programa verilen bir dosyanın içindeki operatörleri, parametreleri ve fonksiyonları sayar ve bunları ekrana yazdırır. Programın doğru çalışması için bu dosya c syntax bir dil ile yazılmış kod olması gerekmektedir.
 
 
